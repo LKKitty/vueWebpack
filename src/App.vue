@@ -1,7 +1,7 @@
 <template>
     <div class="main">
       <!-- 总计时器 -->
-      <stop-watch class="watch1" ref="allwatch"></stop-watch>
+      <stop-watch class="watch1" ref="allwatch" @over="over"></stop-watch>
       <!-- 分段计时器 -->
       <stop-watch class="watch2" ref="partwatch" v-show="showPartWatch"></stop-watch>
       <!-- 计次列表 -->
@@ -76,6 +76,13 @@ export default {
         this.$set(this.lists,this.lists.length,{allTime:this.allTime,partTime:this.partTime})
         partwatch.reset() //先重置
         partwatch.start() //再计时
+      }
+    },
+    over(e) {
+      if(e.minute == 59) {
+        this.startText='开始'
+        this.isStart = this.showPartWatch = false
+        alert('已经到达计时极限，请重新计时～')
       }
     }
   },

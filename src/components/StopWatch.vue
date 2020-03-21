@@ -45,12 +45,17 @@ export default {
     timeIncrement(){
       let date = new Date() //重新计时
       this.intervals = date.getTime() - this.currentTime + this.per_intervals//时间差 = 当前的时间 - 开始的时间
-      let ms = this.intervals%1000/10;
-      let s = this.intervals%60000/1000;
+      let ms = this.intervals%1000/10; //能被1000整除的都是秒的倍数 1秒等于1000毫秒 再吧1000毫秒分成100份，就是
+      let s = this.intervals%60000/1000; //能被60000整除的都是分的倍数
       let min = this.intervals%3600000/60000;
       this.minute = min < 10 ? '0' + Math.floor(min) : Math.floor(min)
       this.second = s < 10 ? '0' + Math.floor(s) : Math.floor(s)
       this.millisecond = ms < 10 ? '0' + Math.floor(ms) : Math.floor(ms)
+      // 如果时间等于59分钟即一小时
+      if(this.minute == 59) {
+        this.$emit('over',{minute:this.minute}) //告诉父组件结束计时
+        this.reset()
+      }
     }
   }
 }
